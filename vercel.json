@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "buildCommand": "echo 'Build handled by vercel.json'",
+  "builds": [
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "frontend/build"
+      }
+    },
+    {
+      "src": "backend/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/backend/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

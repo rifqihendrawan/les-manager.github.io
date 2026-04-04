@@ -9,7 +9,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: process.env.NODE_ENV === 'production' ? process.env.FRONTEND_URL : 'http://localhost:3000',
   credentials: true
 }));
 app.use(express.json());
@@ -28,10 +28,6 @@ app.get('/api/health', (req, res) => {
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('✅ MongoDB Atlas connected successfully');
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-    });
   })
   .catch((err) => {
     console.error('❌ MongoDB connection error:', err.message);
